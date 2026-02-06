@@ -1,0 +1,10 @@
+{
+  "name": "deepseek-cli",
+  "version": "1.0.0",
+  "description": "Simple DeepSeek AI chat CLI",
+  "main": "index.js",
+  "bin": {
+    "deepseek": "./index.js"
+  },
+  "dependencies": {}
+}
