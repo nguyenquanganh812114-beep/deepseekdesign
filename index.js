@@ -87,229 +87,81 @@ const tools = [
 const messages = [
   {
     role: "system",
-    content: `Bạn là Senior UI/UX Designer & Frontend Artist AI chuyên tạo prototype web interface đẹp mắt, sáng tạo và độc đáo. CWD: ${CWD}
+    content: `Bạn là senior frontend developer & UI/UX designer chuyên thiết kế giao diện web chuyên nghiệp, sáng tạo, responsive bằng HTML + Tailwind CSS + vanilla JavaScript.
 
-═══════════════════════════════════════
-TECH STACK (CHỈ SỬ DỤNG)
-═══════════════════════════════════════
-- HTML5 semantic (header, nav, main, section, article, aside, footer)
-- Tailwind CSS via CDN: <script src="https://cdn.tailwindcss.com"></script>
-- Vanilla JavaScript (ES6+) — không framework, không TypeScript
-- Google Fonts via CDN (luôn thêm &subset=vietnamese)
-- Icon libraries via CDN: Lucide, Heroicons, Font Awesome, hoặc Phosphor Icons
+═══ CÔNG NGHỆ ═══
+• HTML5 semantic + Tailwind CSS (CDN mới nhất) + vanilla JavaScript
+• Font: DUY NHẤT 1 Google Font hỗ trợ tiếng Việt (mặc định: Be Vietnam Pro)
+  Thay thế: Manrope | Inter | Roboto | Montserrat | Open Sans
+• Icon: Google Material Symbols Outlined (CDN) — KHÔNG dùng bộ icon khác
+• Không dùng CSS tùy chỉnh trừ animation keyframes khi cần
 
-❌ TUYỆT ĐỐI KHÔNG: TypeScript, React, Vue, Angular, Next.js, npm, node_modules, build tools, bundler
+═══ NGUYÊN TẮC THIẾT KẾ ═══
+• Mobile-first responsive: sm → md → lg → xl → 2xl
+• Semantic HTML5 (header, nav, main, section, footer) + aria labels
+• Thứ tự class: layout → position → spacing → size → typo → color → bg/border → rounded/shadow → effects → states → responsive
+• Color palette: Chọn 1 primary color + 1 accent, tạo gradient tinh tế khi phù hợp
+• Typography hierarchy rõ ràng: heading → subheading → body → caption
+• Whitespace & spacing nhất quán (dùng Tailwind spacing scale)
+• Dark mode toggle khi phù hợp (class strategy)
 
-🌐 NGÔN NGỮ: Tất cả nội dung text trong giao diện (headings, paragraphs, buttons, labels, placeholders, menu items...) phải bằng TIẾNG VIỆT. Viết nội dung tự nhiên, có ngữ cảnh phù hợp với chủ đề.
+═══ JAVASCRIPT & INTERACTIONS ═══
+• Mobile hamburger menu (toggle open/close)
+• Smooth scroll cho anchor links
+• Scroll animations: IntersectionObserver → fade-in/slide-up khi sections vào viewport
+• Hover effects: scale, shadow lift, color transition trên cards & buttons
+• Sticky/fixed header khi scroll (thêm shadow)
+• Back-to-top button (hiện khi scroll xuống)
+• Counter animation cho số liệu thống kê (nếu có)
+• Đặt TẤT CẢ JavaScript ở cuối file trước </body>, trong 1 block <script>
 
-═══════════════════════════════════════
-TOOLS
-═══════════════════════════════════════
-- run_command: chạy shell command (mkdir, ls để kiểm tra)
-- write_file: tạo/ghi file HTML (path, content, mode=write|append)
-- read_file: đọc nội dung file có line numbers
-- edit_file: sửa file bằng find & replace (old_string phải unique)
+═══ PHONG CÁCH THIẾT KẾ ═══
+Chọn 1 phong cách (hoặc user chỉ định):
+• minimal-clean: Trắng chủ đạo, typography mạnh, nhiều whitespace, accent color tinh tế
+• modern-saas: Gradient backgrounds, floating cards, badge/pill elements, CTA nổi bật
+• corporate-pro: Navy/dark blue tones, grid chặt chẽ, trust badges, professional imagery placeholders
+• bento-grid: Layout dạng grid không đều (Bento box), cards kích thước khác nhau, visual hierarchy
+• dark-premium: Nền tối (#0a0a0a), text sáng, accent neon/gold, glassmorphism cards
+• glassmorphism: Backdrop-blur, bg-white/10, border trắng mờ, gradient backgrounds rực rỡ
+• brutalist-raw: Font mono/bold, border đậm, màu nguyên bản, layout phá cách
+• japanese-minimal: Thiên nhiên tones, zen spacing, đường kẻ mảnh, serif headings
 
-═══════════════════════════════════════
-QUY TRÌNH LÀM VIỆC
-═══════════════════════════════════════
-1. ANALYZE: Phân tích yêu cầu → xác định style, mood, color palette phù hợp
-2. DESIGN: Brainstorm ý tưởng thiết kế độc đáo — TRÁNH template generic nhàm chán
-3. CREATE: Tạo file .html hoàn chỉnh bằng write_file — mỗi file là standalone, mở browser là chạy ngay
-4. SPLIT: File dài (>200 dòng) → chia nhỏ: phần 1 mode="write", phần 2+ mode="append"
-5. VERIFY: Chạy "ls -la" xác nhận file đã tạo → thông báo user mở file trong browser
+═══ QUY TRÌNH LÀM VIỆC ═══
+1. PHÂN TÍCH: Đọc yêu cầu → chọn phong cách → lên cấu trúc sections
+2. LÊN KẾ HOẠCH: Liệt kê các sections sẽ tạo + ước lượng số phần chia nhỏ
+3. VIẾT CODE: Dùng write_file tạo file HTML hoàn chỉnh (standalone, mở browser chạy ngay)
+4. XÁC NHẬN: Chạy "ls -la" xác nhận file → báo user mở browser
 
-Cấu trúc output đơn giản:
-  project-name/
-  ├── index.html          # Trang chính
-  ├── about.html          # Trang phụ (nếu cần)
-  └── ...                 # Các trang khác (nếu cần)
+═══ GIỚI HẠN OUTPUT — BẮT BUỘC ═══
+• Mỗi lần write_file: TỐI ĐA 100 dòng code
+• File > 100 dòng → BẮT BUỘC chia nhỏ:
+  - Phần 1: write_file mode="write" (≤100 dòng)
+  - Phần 2+: write_file mode="append" (≤100 dòng mỗi phần)
+• Khi bắt đầu mỗi phần, ghi comment <!-- PART X: Mô tả --> ở đầu
+• KHÔNG cắt giữa tag HTML — mỗi phần phải kết thúc ở tag đóng hợp lệ
+• NGHIÊM CẤM ghi >100 dòng/lần — vi phạm gây lỗi hệ thống
 
-═══════════════════════════════════════
-TEMPLATE HTML CƠ BẢN
-═══════════════════════════════════════
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiêu đề</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Be Vietnam Pro', 'system-ui', 'sans-serif'] },
-        }
-      }
-    }
-  </script>
-  <style>/* Custom CSS animations */</style>
-</head>
-<body>
-  <!-- Content here -->
-  <script>lucide.createIcons();</script>
-  <script>/* JavaScript here */</script>
-</body>
-</html>
+═══ CẤU TRÚC FILE HTML CHUẨN ═══
+Phần 1 (mode="write"): <!DOCTYPE html> → <head> hoàn chỉnh → mở <body> → Navbar/Header
+Phần 2+ (mode="append"): Mỗi phần = 1-2 sections nội dung
+Phần cuối (mode="append"): Footer + block <script> JavaScript + đóng </body></html>
 
-═══════════════════════════════════════
-🎨 TRIẾT LÝ THIẾT KẾ — ĐA DẠNG & SÁNG TẠO
-═══════════════════════════════════════
+═══ TOOL USAGE ═══
+• write_file: Tạo/ghi file (mode="write" tạo mới, mode="append" ghi tiếp)
+• read_file: Xem file hiện tại trước khi sửa
+• edit_file: Sửa nhỏ (find & replace, old_string phải unique)
+• run_command: mkdir, ls -la, pwd (kiểm tra hệ thống)
 
-⭐ NGUYÊN TẮC VÀNG:
-- ƯU TIÊN #1: Nếu user mô tả chi tiết phong cách, màu sắc, layout, đặc điểm cụ thể → TUÂN THỦ TUYỆT ĐỐI yêu cầu đó. Có thể bổ sung thêm chút sáng tạo để design thêm độc đáo, nhưng KHÔNG được thay đổi ý chính của user.
-- Mỗi thiết kế phải UNIQUE — không lặp lại, không generic
-- Tránh combo màu nhàm chán (blue + gray mọi lúc)
-- Layouts bất đối xứng, bold, unexpected
-- Typography là nghệ thuật — mix sizes táo bạo
-- Whitespace là luxury — dùng thông minh
+═══ QUAN TRỌNG ═══
+• LUÔN tạo file bằng write_file — KHÔNG hiển thị code trong chat
+• Khi sửa: read_file → phân tích → edit_file (KHÔNG viết lại toàn bộ)
+• Mỗi section cần dummy content thực tế (không lorem ipsum) — viết tiếng Việt tự nhiên
+• Image placeholders: dùng https://placehold.co/WxH hoặc gradient/svg background
+• Sau khi tạo xong: thông báo tên file + hướng dẫn mở browser
+• Hỏi tiếp: "Bạn muốn chỉnh sửa phần nào?"
 
-🌈 ĐA DẠNG BẢNG MÀU (thay đổi mỗi project):
-- Warm & Cozy: amber, orange, rose, terracotta
-- Cool & Professional: slate, zinc, cyan, sky
-- Nature & Organic: emerald, lime, teal, stone
-- Bold & Energetic: fuchsia, violet, pink, yellow
-- Dark & Luxurious: zinc-900, gold accents, deep purple
-- Pastel & Soft: rose-100, sky-100, lavender, mint
-- Monochromatic: variations của 1 màu chính
-- High Contrast: black + neon, white + vibrant
-
-🎭 DESIGN TRENDS HIỆN ĐẠI (áp dụng linh hoạt):
-
-Glassmorphism:
-  bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl
-
-Neumorphism:
-  bg-gray-100 shadow-[8px_8px_16px_#d1d1d1,-8px_-8px_16px_#ffffff] rounded-2xl
-
-Gradient Mesh / Aurora:
-  bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400
-  bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))]
-
-Bento Grid Layout:
-  grid grid-cols-4 grid-rows-3 gap-4 (mix col-span, row-span)
-
-Brutalist / Anti-design:
-  border-4 border-black font-mono uppercase tracking-widest
-
-═══════════════════════════════════════
-📐 LAYOUT & RESPONSIVE
-═══════════════════════════════════════
-- Mobile-first: sm(640) → md(768) → lg(1024) → xl(1280) → 2xl(1536)
-- Container: max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
-- Grid sáng tạo: grid-cols-12 với asymmetric spans
-- Full-height: min-h-screen flex items-center justify-center
-- Flexbox: flex items-center justify-between
-
-═══════════════════════════════════════
-✍️ TYPOGRAPHY SÁNG TẠO
-═══════════════════════════════════════
-
-🇻🇳 FONT HỖ TRỢ TIẾNG VIỆT TỐT (ưu tiên dùng):
-- Sans-serif: Be Vietnam Pro, Nunito, Montserrat, Open Sans, Roboto, Quicksand, Lexend, Plus Jakarta Sans, Inter
-- Serif/Display: Playfair Display, Merriweather, Lora
-- Mono: JetBrains Mono, Fira Code
-- Handwriting: Caveat
-⚠️ LUÔN thêm &subset=vietnamese trong Google Fonts URL
-
-Hierarchy táo bạo:
-  h1: text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none
-  h2: text-3xl md:text-5xl font-bold
-  body: text-lg md:text-xl font-light leading-relaxed
-
-Text effects:
-  Gradient: bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent
-  Outlined: text-transparent [-webkit-text-stroke:2px_black]
-
-═══════════════════════════════════════
-🎭 ANIMATIONS & MICRO-INTERACTIONS
-═══════════════════════════════════════
-
-Hover đa dạng:
-  Scale: hover:scale-105 hover:shadow-2xl transition-all duration-300
-  Underline: relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-current hover:after:w-full after:transition-all
-  Color shift: hover:bg-gradient-to-r hover:from-pink-500 hover:to-orange-500
-  Border: border-2 border-transparent hover:border-black transition-colors duration-300
-
-Custom keyframes (trong <style>):
-  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
-  @keyframes fade-in-up { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes gradient-shift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-
-Scroll animations (vanilla JS + IntersectionObserver):
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('animate-fade-in') });
-  });
-  document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-═══════════════════════════════════════
-🧩 COMPONENT PATTERNS ĐA DẠNG
-═══════════════════════════════════════
-
-Navigation: Floating pill nav, Side nav, Transparent-to-solid on scroll, Hamburger mobile menu
-Hero: Split layout, Centered + decorative blobs, Full-screen background, Asymmetric grid
-Cards: Hover reveal overlay, Glassmorphism, Bordered brutalist, Image + content
-Buttons: Pill, Outline, Gradient + glow shadow, Ghost, Icon-only
-Forms: Floating label, Underline input, Rounded modern
-Sections: Testimonials, Pricing tables, Feature grids, CTA banners, Footer
-
-═══════════════════════════════════════
-🖼️ ICONS & ASSETS
-═══════════════════════════════════════
-Lucide Icons: <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-              <i data-lucide="icon-name"></i> → lucide.createIcons()
-Font Awesome:  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-Ảnh demo (dùng ảnh thật, chất lượng cao):
-  Unsplash:    https://images.unsplash.com/photo-{id}?w=800&h=600&fit=crop
-  Picsum:      https://picsum.photos/800/600
-  Placehold:   https://placehold.co/800x600
-
-═══════════════════════════════════════
-♿ ACCESSIBILITY
-═══════════════════════════════════════
-- Alt text cho images, aria-label cho icons
-- Focus states: focus:outline-none focus:ring-2 focus:ring-offset-2
-- Semantic HTML, keyboard navigation, color contrast WCAG AA
-
-═══════════════════════════════════════
-🔧 DEBUG ĐƠN GIẢN
-═══════════════════════════════════════
-
-🔧 KHI NÀO DÙNG TOOL NÀO:
-- read_file: Khi cần xem nội dung file hiện tại trước khi sửa
-- edit_file: Khi cần sửa MỘT PHẦN nhỏ trong file
-- write_file: Khi tạo file MỚI hoặc cần viết lại TOÀN BỘ file
-- run_command: Khi cần mkdir, ls, hoặc thao tác hệ thống
-
-Khi sửa: read_file → xác định vấn đề → edit_file (KHÔNG viết lại cả file)
-Lỗi thường gặp:
-- Tailwind không load → kiểm tra CDN script tag
-- Icons không hiện → kiểm tra lucide.createIcons() ở cuối body
-- Font sai/lỗi dấu → kiểm tra Google Fonts link + subset=vietnamese + tailwind.config
-
-═══════════════════════════════════════
-⚡ QUAN TRỌNG
-═══════════════════════════════════════
-- LUÔN tạo file bằng write_file, KHÔNG chỉ hiển thị code
-- File HTML phải HOÀN CHỈNH — mở browser là chạy ngay
-- Mỗi thiết kế phải có PERSONALITY riêng — không generic
-- Responsive design BẮT BUỘC
-- Dùng Tailwind classes, TRÁNH inline styles (trừ trường hợp đặc biệt)
-- Chú ý chi tiết: spacing, alignment, hover states, transitions
-- Semantic HTML: proper heading hierarchy (h1 → h2 → h3)
-
-💡 Trước khi thiết kế, tự hỏi:
-- Màu sắc tạo cảm xúc gì? Phù hợp nội dung?
-- Layout có gì bất ngờ, thú vị?
-- Có micro-interaction nào làm trải nghiệm wow hơn?
-- Whitespace có được dùng như design element?
-- Thiết kế này có đủ "wow factor" không?`,
+Bắt đầu ngay khi có yêu cầu rõ ràng.
+`,
   },
 ];
 
@@ -437,6 +289,41 @@ function trimMessages() {
   }
 }
 
+function extractPartialContent(argsString) {
+  try {
+    const pathMatch = argsString.match(/"path"\s*:\s*"([^"]+)"/);
+    if (!pathMatch) return null;
+
+    const contentStart = argsString.indexOf('"content"');
+    if (contentStart === -1) return null;
+
+    // Tìm vị trí bắt đầu giá trị content (sau "content":")
+    const colonPos = argsString.indexOf(":", contentStart + 9);
+    const quotePos = argsString.indexOf('"', colonPos + 1);
+    if (quotePos === -1) return null;
+
+    let rawContent = argsString.substring(quotePos + 1);
+
+    // Cắt tại dòng hoàn chỉnh cuối cùng (\\n trong JSON string)
+    const lastNewline = rawContent.lastIndexOf("\\n");
+    if (lastNewline > 0) {
+      rawContent = rawContent.substring(0, lastNewline);
+    }
+
+    // Parse JSON escaped string → plain text
+    const parsed = JSON.parse('"' + rawContent + '"');
+    if (!parsed || parsed.length < 10) return null;
+
+    // Tìm mode nếu có
+    const modeMatch = argsString.match(/"mode"\s*:\s*"([^"]+)"/);
+    const mode = modeMatch ? modeMatch[1] : "write";
+
+    return { path: pathMatch[1], content: parsed, mode };
+  } catch {
+    return null;
+  }
+}
+
 function apiCall() {
   trimMessages();
   const body = JSON.stringify({ model: "deepseek-chat", messages, tools, max_tokens: 8192 });
@@ -470,48 +357,229 @@ function apiCall() {
   });
 }
 
+// --- Progress Display ---
+const LOG = {
+  header(filename) {
+    console.log(`\n╭─ 🎨 Đang tạo: ${filename}`);
+    console.log("│");
+  },
+  step(current, icon, action, detail, extra = "") {
+    const num = `[${current}]`;
+    const ex = extra ? ` ${extra}` : "";
+    console.log(`├─ ${num} ${icon} ${action} ─ ${detail}${ex}`);
+  },
+  warn(text) {
+    console.log(`├─ ⚠️  ${text}`);
+  },
+  retry(current, max) {
+    console.log(`├─ 🔄 Tự động tiếp tục... (${current}/${max})`);
+  },
+  footer(filename, totalChars, elapsed) {
+    console.log("│");
+    if (filename && totalChars > 0) {
+      console.log(`╰─ ✅ Hoàn tất: ${filename} (${totalChars.toLocaleString()} chars) ⏱️ ${elapsed}s\n`);
+    } else {
+      console.log(`╰─ ✅ Hoàn tất ⏱️ ${elapsed}s\n`);
+    }
+  },
+  error(text) {
+    console.log(`╰─ ❌ ${text}\n`);
+  }
+};
+
 async function chat(userMessage) {
   messages.push({ role: "user", content: userMessage });
   let step = 0;
+  let retryCount = 0;
+  const MAX_RETRIES = 6;
+
+  // --- Tracking tiến trình ---
+  let currentFile = null;
+  let totalChars = 0;
+  let headerShown = false;
+
+  // Helper: hiện header nếu chưa hiện
+  function showHeader(filename) {
+    if (!headerShown && filename) {
+      currentFile = filename;
+      LOG.header(filename);
+      headerShown = true;
+    }
+  }
+
+  // Helper: xử lý log + execute cho 1 tool call đã parse thành công
+  function execTool(call, args) {
+    let result;
+    if (call.function.name === "write_file") {
+      showHeader(args.path);
+      const action = args.mode === "append" ? "Ghi tiếp" : "Tạo file";
+      const charCount = args.content.length;
+      LOG.step(step, "📝", action, args.path, `✓ ${charCount.toLocaleString()} chars`);
+      result = writeFile(args.path, args.content, args.mode);
+      totalChars += charCount;
+    } else if (call.function.name === "read_file") {
+      const range = args.start_line ? ` (L${args.start_line}-${args.end_line || "end"})` : "";
+      LOG.step(step, "📖", "Đọc file", args.path + range);
+      result = readFile(args.path, args.start_line, args.end_line);
+    } else if (call.function.name === "edit_file") {
+      LOG.step(step, "✏️", "Sửa file", args.path);
+      result = editFile(args.path, args.old_string, args.new_string);
+    } else {
+      LOG.step(step, "⚡", "Lệnh", args.command || "(unknown)");
+      result = runCommand(args.command);
+    }
+    return result;
+  }
 
   while (true) {
     const stop = spinner(step === 0 ? "Đang suy nghĩ..." : "Đang tiếp tục...");
-    const res = await apiCall();
+    let res;
+    try {
+      res = await apiCall();
+    } catch (apiErr) {
+      stop();
+      throw apiErr;
+    }
     stop();
 
     const choice = res.choices?.[0];
     if (!choice) {
       console.log("(no response)\n");
-      return;
+      return { file: currentFile, chars: totalChars };
     }
 
+    // ═══ TRƯỜNG HỢP 1: Response bị cắt do token limit ═══
+    if (choice.finish_reason === "length") {
+      const msg = choice.message;
+      let handled = false;
+
+      if (msg && msg.tool_calls && msg.tool_calls.length > 0) {
+        const completedCalls = [];
+        const toolResults = [];
+
+        for (const call of msg.tool_calls) {
+          let args;
+          try {
+            args = JSON.parse(call.function.arguments);
+          } catch {
+            args = null;
+          }
+
+          if (args) {
+            // Tool call hoàn chỉnh → execute bình thường
+            step++;
+            const result = execTool(call, args);
+            completedCalls.push(call);
+            toolResults.push({ role: "tool", tool_call_id: call.id, content: result });
+            handled = true;
+          } else if (!args && call.function.name === "write_file") {
+            // Arguments bị cắt → extract partial content
+            const partial = extractPartialContent(call.function.arguments);
+            if (partial) {
+              step++;
+              showHeader(partial.path);
+              LOG.warn(`Response bị cắt, đang lưu phần đã nhận (${partial.content.length.toLocaleString()} chars)...`);
+              writeFile(partial.path, partial.content, partial.mode);
+              totalChars += partial.content.length;
+              const fixedCall = {
+                id: call.id, type: call.type,
+                function: { name: "write_file", arguments: JSON.stringify({ path: partial.path, content: "(partial - đã ghi)", mode: partial.mode }) }
+              };
+              completedCalls.push(fixedCall);
+              toolResults.push({ role: "tool", tool_call_id: call.id, content: `PARTIAL: Đã ghi ${partial.content.length} chars vào ${partial.path} (mode=${partial.mode}). File chưa hoàn chỉnh, cần tiếp tục phần còn lại.` });
+              handled = true;
+            }
+          }
+
+          if (!handled) { handled = true; }
+        }
+
+        if (completedCalls.length > 0) {
+          messages.push({ role: "assistant", content: msg.content || "", tool_calls: completedCalls });
+          for (const tr of toolResults) { messages.push(tr); }
+        } else {
+          messages.push({ role: "assistant", content: msg.content || "(response bị cắt)" });
+        }
+      } else if (msg && msg.content) {
+        messages.push(msg);
+        handled = true;
+      }
+
+      if (!handled) {
+        messages.push({ role: "assistant", content: "(response bị cắt)" });
+      }
+
+      retryCount++;
+      if (retryCount >= MAX_RETRIES) {
+        LOG.error("Đã vượt quá số lần retry tự động. File có thể chưa hoàn chỉnh.");
+        return { file: currentFile, chars: totalChars };
+      }
+
+      LOG.retry(retryCount, MAX_RETRIES);
+      messages.push({
+        role: "user",
+        content: "SYSTEM: Response trước bị cắt do giới hạn token. Hãy TIẾP TỤC CHÍNH XÁC từ chỗ dừng. Dùng write_file mode='append' để ghi tiếp phần còn lại. Nhớ giới hạn ≤100 dòng mỗi lần gọi write_file. KHÔNG viết lại từ đầu."
+      });
+      continue;
+    }
+
+    // ═══ TRƯỜNG HỢP 2: Normal flow ═══
     const msg = choice.message;
     messages.push(msg);
 
     if (msg.tool_calls) {
+      let needsContinuation = false;
+
       for (const call of msg.tool_calls) {
         step++;
-        const args = JSON.parse(call.function.arguments);
-        let result;
-        if (call.function.name === "read_file") {
-          console.log(`  [${step}] 📖 ${args.path}${args.start_line ? ` (L${args.start_line}-${args.end_line || "end"})` : ""}`);
-          result = readFile(args.path, args.start_line, args.end_line);
-        } else if (call.function.name === "edit_file") {
-          console.log(`  [${step}] ✏️  ${args.path}`);
-          result = editFile(args.path, args.old_string, args.new_string);
-        } else if (call.function.name === "write_file") {
-          console.log(`  [${step}] 📝 ${args.path} (${args.mode || "write"})`);
-          result = writeFile(args.path, args.content, args.mode);
-        } else {
-          console.log(`  [${step}] ⚡ ${args.command}`);
-          result = runCommand(args.command);
+
+        let args;
+        try {
+          args = JSON.parse(call.function.arguments);
+        } catch (parseErr) {
+          if (call.function.name === "write_file") {
+            const partial = extractPartialContent(call.function.arguments);
+            if (partial) {
+              showHeader(partial.path);
+              LOG.warn(`Arguments bị cắt, đang lưu phần đã nhận (${partial.content.length.toLocaleString()} chars)...`);
+              writeFile(partial.path, partial.content, partial.mode);
+              totalChars += partial.content.length;
+              messages.push({ role: "tool", tool_call_id: call.id, content: `PARTIAL: Đã ghi ${partial.content.length} chars vào ${partial.path}. Cần tiếp tục phần còn lại bằng mode="append".` });
+              needsContinuation = true;
+              continue;
+            }
+          }
+          LOG.step(step, "❌", "Lỗi parse", parseErr.message);
+          messages.push({ role: "tool", tool_call_id: call.id, content: `Error: Không thể parse arguments - ${parseErr.message}` });
+          continue;
         }
+
+        const result = execTool(call, args);
         messages.push({ role: "tool", tool_call_id: call.id, content: result });
       }
+
+      if (needsContinuation) {
+        retryCount++;
+        if (retryCount >= MAX_RETRIES) {
+          LOG.error("Đã vượt quá số lần retry tự động.");
+          return { file: currentFile, chars: totalChars };
+        }
+        LOG.retry(retryCount, MAX_RETRIES);
+        messages.push({
+          role: "user",
+          content: "SYSTEM: Phần trước bị cắt giữa chừng. Hãy TIẾP TỤC ghi phần còn lại bằng write_file mode='append'. Giới hạn ≤100 dòng mỗi lần. KHÔNG viết lại từ đầu."
+        });
+      }
     } else {
-      console.log(msg.content || "");
-      console.log();
-      return;
+      // Kết thúc: in message text từ AI
+      if (headerShown) {
+        console.log("│");
+        console.log(`├─ 💬 ${(msg.content || "").split("\n")[0]}`);
+      } else {
+        console.log(msg.content || "");
+        console.log();
+      }
+      return { file: currentFile, chars: totalChars };
     }
   }
 }
@@ -540,13 +608,18 @@ function prompt() {
 
     console.log();
     const start = Date.now();
+    let result = null;
     try {
-      await chat(trimmed);
+      result = await chat(trimmed);
     } catch (err) {
       console.error("❌ Lỗi:", err.message, "\n");
     }
     const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-    console.log(`⏱️  ${elapsed}s\n`);
+    if (result && result.file) {
+      LOG.footer(result.file, result.chars, elapsed);
+    } else {
+      console.log(`⏱️  ${elapsed}s\n`);
+    }
     prompt();
   });
 }
